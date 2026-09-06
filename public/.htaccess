@@ -1,0 +1,24 @@
+Options -Indexes
+
+# Deshabilitar HTTPS forzado (necesario para localhost/XAMPP)
+# NO agregar reglas que fuercen https:// en entorno local
+
+RewriteEngine On
+
+# RewriteBase DEBE coincidir con la subcarpeta donde está public/
+# Si el proyecto está en C:\xampp\htdocs\labelprint\public\
+# RewriteBase es /labelprint/public
+# El sistema lo detecta automáticamente, pero si hay problemas
+# descomente y ajuste la línea siguiente:
+# RewriteBase /labelprint/public
+
+# Bloquear acceso a archivos ocultos
+RewriteRule (^|/)\.(?!well-known) - [F,L]
+
+# Permitir archivos y directorios reales (assets, uploads, etc.)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Todo lo demás va a index.php
+RewriteRule ^ index.php [L,QSA]

@@ -1,0 +1,374 @@
+/* ============================================================
+   LABELPRINT — CSS Principal
+   TSC TE200 · 80×40mm Label System
+   ============================================================ */
+
+:root {
+    --lp-primary:     #1a56db;
+    --lp-sidebar-bg: #1e2235;
+    --lp-sidebar-w:  240px;
+    --lp-header-h:   56px;
+    --lp-border:     #e2e8f0;
+    --lp-bg:         #f1f5f9;
+    --lp-card-bg:    #ffffff;
+    --lp-text:       #1e293b;
+    --lp-muted:      #64748b;
+}
+
+* { box-sizing: border-box; }
+
+body.lp-body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--lp-bg);
+    color: var(--lp-text);
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ---- SIDEBAR ---- */
+.lp-sidebar {
+    width: var(--lp-sidebar-w);
+    min-height: 100vh;
+    background: var(--lp-sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 1000;
+    transition: transform .25s ease;
+}
+
+.lp-sidebar-header {
+    padding: 20px 16px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.lp-sidebar-icon { font-size: 1.5rem; color: #60a5fa; }
+.lp-sidebar-title { color: #fff; font-size: 1.1rem; font-weight: 700; letter-spacing: .5px; }
+
+.lp-nav {
+    list-style: none;
+    padding: 12px 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.lp-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: .92rem;
+    transition: background .15s, color .15s;
+    border-radius: 0;
+}
+
+.lp-nav-link:hover { background: rgba(255,255,255,.06); color: #e2e8f0; }
+.lp-nav-link.active { background: rgba(96,165,250,.15); color: #60a5fa; font-weight: 600; }
+.lp-nav-link i { font-size: 1rem; width: 18px; text-align: center; }
+
+.lp-nav-divider { height: 1px; background: rgba(255,255,255,.06); margin: 8px 16px; }
+.lp-nav-label {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    color: #475569; padding: 4px 20px; letter-spacing: 1px;
+}
+
+.lp-sidebar-footer {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #94a3b8;
+    font-size: .85rem;
+}
+
+/* ---- MAIN ---- */
+.lp-main {
+    margin-left: var(--lp-sidebar-w);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.lp-topbar {
+    height: var(--lp-header-h);
+    background: #fff;
+    border-bottom: 1px solid var(--lp-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.lp-toggle-btn {
+    background: none; border: none; font-size: 1.4rem;
+    color: var(--lp-muted); cursor: pointer; padding: 4px;
+    display: none;
+}
+
+.lp-page-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--lp-text);
+}
+
+.lp-content { padding: 24px; flex: 1; }
+
+/* ---- CARDS ---- */
+.lp-card {
+    border: 1px solid var(--lp-border);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.lp-card .card-header {
+    background: #fff;
+    border-bottom: 1px solid var(--lp-border);
+    border-radius: 10px 10px 0 0 !important;
+    padding: 14px 20px;
+}
+
+/* ---- STAT CARDS ---- */
+.lp-stat-card {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--lp-border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.lp-stat-icon { font-size: 1.8rem; opacity: .8; }
+.lp-stat-value { font-size: 2rem; font-weight: 800; line-height: 1; }
+.lp-stat-label { font-size: .82rem; color: var(--lp-muted); font-weight: 500; }
+
+.lp-stat-primary .lp-stat-icon,
+.lp-stat-primary .lp-stat-value { color: #1a56db; }
+.lp-stat-success .lp-stat-icon,
+.lp-stat-success .lp-stat-value { color: #059669; }
+.lp-stat-warning .lp-stat-icon,
+.lp-stat-warning .lp-stat-value { color: #d97706; }
+.lp-stat-info .lp-stat-icon,
+.lp-stat-info .lp-stat-value { color: #0891b2; }
+
+/* ---- TABLES ---- */
+.lp-table thead th { font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; color: var(--lp-muted); }
+.lp-table td { vertical-align: middle; }
+
+/* ---- LABEL PREVIEW ---- */
+/*
+   Proporción real de etiqueta: 80mm × 40mm = 2:1 (ancho:alto)
+   Tamaño en pantalla: 360px × 180px
+   Todo el contenido DEBE quedar dentro del borde.
+   overflow: hidden garantiza que nada salga.
+*/
+.lp-label-preview {
+    width: 360px;
+    height: 180px;
+    border: 2px solid #1a1a1a;
+    border-radius: 3px;
+    background: #fff;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-family: 'Courier New', monospace;
+    position: relative;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    overflow: hidden;       /* Nada puede salir del borde */
+    box-sizing: border-box;
+}
+
+/* HEADER: logo + nombre empresa — altura fija */
+.lp-label-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.lp-label-logo {
+    width: 28px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.lp-label-logo img {
+    max-width: 28px;
+    max-height: 24px;
+    object-fit: contain;
+    filter: grayscale(100%);
+}
+
+.lp-label-logo .bi {
+    font-size: .9rem;
+    color: #888;
+}
+
+.lp-label-empresa {
+    font-weight: 800;
+    font-size: .72rem;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    line-height: 1;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* DIVISOR */
+.lp-label-divider {
+    height: 1px;
+    background: #1a1a1a;
+    margin: 3px 0;
+    flex-shrink: 0;
+}
+
+/* FILA producto / subproducto */
+.lp-label-row {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    line-height: 1.1;
+    overflow: hidden;
+}
+
+.lp-label-field-name {
+    font-size: .48rem;
+    color: #666;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.lp-label-field-val {
+    font-size: .72rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.15;
+    overflow: hidden;
+    /* Subproducto largo: permitir 2 líneas máximo */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* PARTE INFERIOR: cantidad, turno, fecha — ocupa el resto */
+.lp-label-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 6px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.lp-label-kv {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Fecha ocupa el ancho completo */
+.lp-label-kv.lp-full {
+    grid-column: 1 / -1;
+}
+
+.lp-label-k {
+    font-size: .44rem;
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    line-height: 1.3;
+}
+
+.lp-label-v {
+    font-size: .68rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---- LOGIN ---- */
+body.lp-login-body {
+    background: linear-gradient(135deg, #1e2235 0%, #1a56db 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lp-login-wrap { width: 100%; max-width: 420px; padding: 16px; }
+
+.lp-login-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+
+.lp-login-icon { font-size: 3rem; color: var(--lp-primary); }
+.lp-login-title { font-size: 1.6rem; font-weight: 800; color: var(--lp-text); margin-top: 8px; }
+
+/* ---- EMPRESA LOGO PREVIEW ---- */
+.lp-logo-preview {
+    width: 160px;
+    height: 100px;
+    border: 2px dashed var(--lp-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.lp-logo-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+    .lp-sidebar {
+        transform: translateX(-100%);
+    }
+    .lp-sidebar.open {
+        transform: translateX(0);
+    }
+    .lp-main {
+        margin-left: 0;
+    }
+    .lp-toggle-btn { display: flex; }
+    .lp-label-preview {
+        width: 280px;
+        height: 140px;
+    }
+}
