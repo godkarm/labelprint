@@ -2,3 +2,67 @@
 [01-Sep-2026 07:04:19 America/Lima] [HISTORIAL] Impresión eliminada: ID=3, Empresa=REVULMAQ S.A.C., Producto=BOLSA UVA 2 KG, Usuario=1
 [01-Sep-2026 07:04:36 America/Lima] [HISTORIAL] Impresión eliminada: ID=1, Empresa=REVULMAQ S.A.C., Producto=BOLSA UVA 2 KG, Usuario=1
 [01-Sep-2026 07:04:41 America/Lima] [HISTORIAL] Impresión eliminada: ID=2, Empresa=REVULMAQ S.A.C., Producto=CAJA PALTA 10 KG, Usuario=1
+[05-Sep-2026 20:06:47 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788656807_8153.prn" "TSC TE200"
+[05-Sep-2026 20:06:47 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:07:39 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788656859_7779.prn" "TSC TE200"
+[05-Sep-2026 20:07:39 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:20:01 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788657601_6109.prn" "TSC TE200"
+[05-Sep-2026 20:20:02 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:24:36 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788657876_7572.prn" "TSC TE200"
+[05-Sep-2026 20:24:36 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:27:22 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788658042_4657.prn" "TSC TE200"
+[05-Sep-2026 20:27:22 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:27:31 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788658051_2783.prn" "TSC TE200"
+[05-Sep-2026 20:27:31 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:27:40 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788658060_6620.prn" "TSC TE200"
+[05-Sep-2026 20:27:40 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:28:30 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788658110_3198.prn" "TSC TE200"
+[05-Sep-2026 20:28:30 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[05-Sep-2026 20:28:47 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788658127_9650.prn" "TSC TE200"
+[05-Sep-2026 20:28:47 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[06-Sep-2026 01:01:07 America/Lima] [PrinterService] Tipo de conexión: usb | Longitud TSPL: 545 bytes
+[06-Sep-2026 01:01:07 America/Lima] [PrinterService][Win] Archivo temporal creado: C:\xampp\htdocs\labelprint\storage\temp\label_1788674467_2889.prn (545 bytes)
+[06-Sep-2026 01:01:07 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788674467_2889.prn" "TSC TE200"
+[06-Sep-2026 01:01:07 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[06-Sep-2026 01:02:48 America/Lima] [LabelService] TSPL generado (487 bytes). Primeros 400 chars: SIZE 80 mm, 40 mm | GAP 2 mm, 0 mm | DIRECTION 0 | REFERENCE 0,0 | SPEED 4 | DENSITY 8 | SET TEAR ON | CLS | TEXT 10,5,"3",0,1,1,"REVULMAQ S.A.C." | BAR 0,52,643,2 | TEXT 10,58,"2",0,1,1,"PRODUCTO:" | TEXT 10,76,"3",0,1,1,"BOLSA UVA 2 KG" | TEXT 10,112,"2",0,1,1,"SUBPRODUCTO:" | TEXT 10,130,"3",0,1,1,"503C - PREMIUM CCX1205000" | BAR 0,185,643,2 | TEXT 10,192,"2",0,1,1,"CANTIDAD: 25" | TEXT 340,19
+[06-Sep-2026 01:02:48 America/Lima] [PrinterService] Tipo de conexión: usb | Longitud TSPL: 487 bytes
+[06-Sep-2026 01:02:48 America/Lima] [PrinterService][Win] Archivo temporal creado: C:\xampp\htdocs\labelprint\storage\temp\label_1788674568_5288.prn (487 bytes)
+[06-Sep-2026 01:02:48 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788674568_5288.prn" "TSC TE200"
+[06-Sep-2026 01:02:48 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[06-Sep-2026 01:02:48 America/Lima] [LabelService] Resultado impresión ID=15 estado=IMPRESO msg=Etiqueta enviada correctamente a "TSC TE200".
+[06-Sep-2026 01:12:10 America/Lima] [PrinterService] Tipo de conexión: usb | Longitud TSPL: 545 bytes
+[06-Sep-2026 01:12:10 America/Lima] [PrinterService][Win] Archivo temporal creado: C:\xampp\htdocs\labelprint\storage\temp\label_1788675130_5468.prn (545 bytes)
+[06-Sep-2026 01:12:10 America/Lima] [PrinterService][Win] CMD1: copy /b "C:\xampp\htdocs\labelprint\storage\temp\label_1788675130_5468.prn" "TSC TE200"
+[06-Sep-2026 01:12:10 America/Lima] [PrinterService][Win] CMD1 rc=0 out=        1 archivo(s) copiado(s).
+[06-Sep-2026 12:56:37 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 495 bytes enviados a 'TSC TE200'
+[06-Sep-2026 12:59:20 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 481 bytes enviados a 'TSC TE200'
+[06-Sep-2026 12:59:41 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 481 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:01:40 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 481 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:02:02 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 481 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:05:33 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:08:20 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:09:48 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:54:54 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:55:14 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:57:38 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:58:58 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 13:59:15 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:00:37 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:08:06 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:08:39 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 495 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:09:16 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:10:22 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 475 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:16:33 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 477 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:17:28 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:17:57 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:19:55 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:28:17 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:28:48 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:30:07 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 14:30:34 America/Lima] [PrinterService] PS1 RawPrinterHelper: rc=0 out=OK: 486 bytes enviados a 'TSC TE200'
+[06-Sep-2026 22:57:14 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[06-Sep-2026 22:57:57 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[06-Sep-2026 23:05:48 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[06-Sep-2026 23:08:13 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[06-Sep-2026 23:08:44 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[06-Sep-2026 23:10:24 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0

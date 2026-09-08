@@ -82,6 +82,7 @@ $subLen    = strlen($impresion['subproducto_descripcion'] ?? '');
                     <span class="lp-label-field-name">PRODUCTO:</span>
                     <span class="lp-label-field-val"><?= htmlspecialchars($impresion['producto_nombre']) ?></span>
                 </div>
+                <div class="lp-label-divider"></div>
                 <div class="lp-label-row">
                     <span class="lp-label-field-name">COLOR:</span>
                     <span class="lp-label-field-val" style="font-size:<?= $subLen > 35 ? '.60rem' : ($subLen > 25 ? '.65rem' : '.72rem') ?>">
@@ -91,16 +92,20 @@ $subLen    = strlen($impresion['subproducto_descripcion'] ?? '');
                 <div class="lp-label-divider"></div>
                 <div class="lp-label-bottom">
                     <div class="lp-label-kv">
-                        <span class="lp-label-k">Cantidad</span>
+                        <span class="lp-label-k">CANTIDAD</span>
                         <span class="lp-label-v"><?= number_format((int)$impresion['cantidad']) ?></span>
                     </div>
                     <div class="lp-label-kv">
-                        <span class="lp-label-k">Turno</span>
+                        <span class="lp-label-k">TURNO</span>
                         <span class="lp-label-v"><?= htmlspecialchars($turnos[$impresion['turno']] ?? '') ?></span>
                     </div>
                     <div class="lp-label-kv">
-                        <span class="lp-label-k">Fecha</span>
+                        <span class="lp-label-k">FECHA</span>
                         <span class="lp-label-v"><?= date('d/m/Y', strtotime($impresion['fecha_etiqueta'])) ?></span>
+                    </div>
+                    <div class="lp-label-kv">
+                        <span class="lp-label-k">COPIAS</span>
+                        <span class="lp-label-v"><?= (int)$impresion['copias'] ?></span>
                     </div>
                 </div>
             </div>

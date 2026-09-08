@@ -170,7 +170,8 @@ class LabelService
             'success'      => $result['success'],
             'message'      => $result['message'],
             'impresion_id' => $impresionId,
-            'tspl'         => $tspl,  // Para debug
+            'tspl'         => $tspl,
+            'prn_file'     => $result['prn_file'] ?? null,
         ];
     }
 
@@ -276,6 +277,8 @@ class LabelService
             'success'      => $result['success'],
             'message'      => $result['message'],
             'impresion_id' => $nuevaId,
+            'tspl'         => $tspl,
+            'prn_file'     => $result['prn_file'] ?? null,
         ];
     }
 

@@ -41,13 +41,13 @@ Sistema web para gestionar, preparar e imprimir etiquetas térmicas de 40×80 mm
 
 - **DPI:** 203 dpi
 - **Lenguaje:** TSPL2
-- **Tamaño físico:** 80 mm × 40 mm (horizontal)
-- **LABEL_WIDTH_MM = 80, LABEL_HEIGHT_MM = 40**
+- **Tamaño físico:** 100 mm × 200 mm (vertical)
+- **LABEL_WIDTH_MM = 100, LABEL_HEIGHT_MM = 200**
 - **Velocidad:** 4 (configurable)
 - **Densidad:** 8 (configurable)
 - **Conversión a píxeles @ 203 dpi:** 1 mm = 8.0315 dots
-  - 80 mm = 643 dots
-  - 40 mm = 322 dots
+  - 100 mm = 803 dots
+  - 200 mm = 1606 dots
 - **El navegador NO puede enviar RAW a USB directamente.**
 - **Arquitectura de impresión:** Navegador → PHP server → socket/USB → TSC TE200
 - **Logo:** Convertir a BMP monocromo antes de enviar.

@@ -39,10 +39,10 @@ return [
     ],
 
     'label' => [
-        'width_mm'   => 80,
-        'height_mm'  => 40,
+        'width_mm'   => 100,
+        'height_mm'  => 200,
         'dpi'        => 203,
-        'orientation'=> 'horizontal',
+        'orientation'=> 'vertical',
     ],
 
     'print' => [

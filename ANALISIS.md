@@ -216,3 +216,55 @@ El método `registrarImpresion()` en `LabelService` hacía un INSERT en `impresi
 - `database/migrations/002_add_empresa_to_impresiones.sql` (nuevo)
 
 **Estado:** IMPLEMENTADO
+
+---
+
+## 10. Diagnóstico: La etiqueta no imprime (v1.5.0)
+
+**Problema:** La TSC TE200 no recibía o no procesaba la etiqueta.
+
+**Puntos de falla identificados:**
+
+1. **Codificación de caracteres (CRÍTICO):** El TSPL2 contenía "MAÑANA" con bytes UTF-8.
+   La TE200 usa CP850 por defecto. Los bytes multi-byte de Ñ/tildes corrompían el stream
+   TSPL2, haciendo que la impresora los interpretara como comandos inválidos o descartara
+   el trabajo silenciosamente. **Solución:** transliteración a ASCII en `tspl()`.
+
+2. **Envío USB Windows — método insuficiente:** El `copy /b` al nombre de impresora
+   falla si el nombre no coincide exactamente o si Windows no lo acepta en modo RAW.
+   **Solución:** cascada de 3 métodos + campo de puerto USB (USB001, COM3...).
+
+3. **Sin diagnóstico:** El sistema no dejaba trazas del TSPL generado ni del .prn,
+   imposibilitando el diagnóstico. **Solución:** guardar .prn siempre, visor TSPL,
+   descarga del .prn para impresión manual.
+
+**Método de impresión:** TCP/IP (recomendado) o USB Windows via copy /b.
+**Impresora:** TSC TE200 — TSPL2 — 203 DPI — 80×40 mm.
+**Estado:** IMPLEMENTADO
+
+---
+
+## 11. Análisis: fallo USB en XAMPP/Windows (v1.5.2)
+
+**CAPA CON FALLA:** Capa de comunicación PHP → Windows spooler.
+
+**ARCHIVO:** `app/Services/PrinterService.php` → `sendUsbWindows()`
+
+**CAUSA RAÍZ (más probable):**
+Apache/XAMPP en Windows se instala y corre como servicio de sistema bajo
+`NT AUTHORITY\SYSTEM`. Esa cuenta de sistema NO tiene acceso a las impresoras
+instaladas para el usuario interactivo. Por tanto:
+- `copy /b archivo.prn "TSC TE200"` → rc=1, falla silenciosamente.
+- El sistema reporta éxito o falla dependiendo de la configuración.
+
+**SOLUCIONES IMPLEMENTADAS:**
+1. Cascada de 5 métodos en `sendUsbWindows()`.
+2. PowerShell RawPrinterHelper (API Win32 del spooler) como método primario.
+3. Página de diagnóstico paso a paso con detección del usuario de Apache.
+4. Guía para cambiar la cuenta de servicio de Apache.
+
+**SOLUCIÓN DEFINITIVA PARA EL USUARIO:**
+- Usar TCP/IP (más limpio y confiable).
+- O cambiar la cuenta de Apache en Servicios → Inicio de sesión → "Esta cuenta".
+
+**Estado:** IMPLEMENTADO — pendiente prueba física del usuario.

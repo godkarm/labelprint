@@ -112,18 +112,23 @@
                         <span class="lp-label-field-val">501B - NATURAL CCX1103000</span>
                     </div>
                     <div class="lp-label-divider"></div>
+                    <div class="lp-label-divider"></div>
                     <div class="lp-label-bottom">
                         <div class="lp-label-kv">
-                            <span class="lp-label-k">Cantidad</span>
+                            <span class="lp-label-k">CANTIDAD</span>
                             <span class="lp-label-v">500</span>
                         </div>
                         <div class="lp-label-kv">
-                            <span class="lp-label-k">Turno</span>
-                            <span class="lp-label-v">1 - Mañana</span>
+                            <span class="lp-label-k">TURNO</span>
+                            <span class="lp-label-v">1 - Manana</span>
                         </div>
                         <div class="lp-label-kv">
-                            <span class="lp-label-k">Fecha</span>
+                            <span class="lp-label-k">FECHA</span>
                             <span class="lp-label-v"><?= date('d/m/Y') ?></span>
+                        </div>
+                        <div class="lp-label-kv">
+                            <span class="lp-label-k">COPIAS</span>
+                            <span class="lp-label-v">1</span>
                         </div>
                     </div>
                 </div>

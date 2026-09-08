@@ -66,10 +66,13 @@ $router->post('/historial/{id}/eliminar',   'HistorialController', 'eliminar');
 // ============================================================
 // CONFIGURACIÓN
 // ============================================================
-$router->get('/configuracion',              'ConfiguracionController', 'index');
-$router->post('/configuracion/impresora',   'ConfiguracionController', 'updateImpresora');
-$router->post('/configuracion/prueba',      'ConfiguracionController', 'prueba');
-$router->post('/configuracion/calibracion', 'ConfiguracionController', 'calibracion');
+$router->get('/configuracion',                  'ConfiguracionController', 'index');
+$router->post('/configuracion/impresora',        'ConfiguracionController', 'updateImpresora');
+$router->post('/configuracion/prueba',           'ConfiguracionController', 'prueba');
+$router->post('/configuracion/calibracion',      'ConfiguracionController', 'calibracion');
+$router->get('/configuracion/diagnostico',       'ConfiguracionController', 'diagnostico');
+$router->post('/configuracion/diagnostico-run',  'ConfiguracionController', 'diagnosticoRun');
+$router->get('/storage/temp/{file}',             'ConfiguracionController', 'descargarPrn');
 
 // ============================================================
 // API (AJAX)

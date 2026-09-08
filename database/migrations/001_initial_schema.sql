@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `configuracion_impresora` (
 INSERT INTO `configuracion_impresora`
   (`nombre`, `modelo`, `dpi`, `ancho_mm`, `alto_mm`, `velocidad`, `densidad`, `orientacion`, `tipo_conexion`)
 VALUES
-  ('TSC TE200', 'TE200', 203, 80.00, 40.00, 4, 8, 'horizontal', 'usb');
+  ('TSC TE200', 'TE200', 203, 100.00, 200.00, 4, 8, 'vertical', 'usb');
 
 -- ============================================================
 -- IMPRESIONES (HISTORIAL)

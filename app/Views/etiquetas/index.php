@@ -88,7 +88,7 @@ $turnos = [1 => '1 - Mañana', 2 => '2 - Tarde', 3 => '3 - Noche'];
         <div class="card lp-card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="bi bi-eye me-2"></i>Vista Previa</h5>
-                <span class="badge bg-secondary">80 × 40 mm</span>
+                <span class="badge bg-secondary">100 × 200 mm — Vertical</span>
             </div>
             <div class="card-body d-flex flex-column align-items-center justify-content-center" style="min-height:300px;">
                 <div id="labelPreview" class="lp-label-preview">
@@ -109,6 +109,7 @@ $turnos = [1 => '1 - Mañana', 2 => '2 - Tarde', 3 => '3 - Noche'];
                         <span class="lp-label-field-name">PRODUCTO:</span>
                         <span class="lp-label-field-val" id="previewProducto">—</span>
                     </div>
+                    <div class="lp-label-divider"></div>
                     <div class="lp-label-row">
                         <span class="lp-label-field-name">COLOR:</span>
                         <span class="lp-label-field-val" id="previewSubproducto">—</span>
@@ -116,21 +117,25 @@ $turnos = [1 => '1 - Mañana', 2 => '2 - Tarde', 3 => '3 - Noche'];
                     <div class="lp-label-divider"></div>
                     <div class="lp-label-bottom">
                         <div class="lp-label-kv">
-                            <span class="lp-label-k">Cantidad</span>
+                            <span class="lp-label-k">CANTIDAD</span>
                             <span class="lp-label-v" id="previewCantidad">—</span>
                         </div>
                         <div class="lp-label-kv">
-                            <span class="lp-label-k">Turno</span>
+                            <span class="lp-label-k">TURNO</span>
                             <span class="lp-label-v" id="previewTurno">—</span>
                         </div>
                         <div class="lp-label-kv">
-                            <span class="lp-label-k">Fecha</span>
+                            <span class="lp-label-k">FECHA</span>
                             <span class="lp-label-v" id="previewFecha">—</span>
+                        </div>
+                        <div class="lp-label-kv">
+                            <span class="lp-label-k">COPIAS</span>
+                            <span class="lp-label-v" id="previewCopias">—</span>
                         </div>
                     </div>
                 </div>
                 <div class="mt-2 text-muted small text-center">
-                    Vista previa aproximada — El resultado real depende de la configuración de la impresora.
+                    Vista previa aproximada — Etiqueta 100×200mm vertical. Área útil 95%.
                 </div>
             </div>
         </div>
@@ -140,7 +145,7 @@ $turnos = [1 => '1 - Mañana', 2 => '2 - Tarde', 3 => '3 - Noche'];
             <div class="card-body py-2">
                 <div class="d-flex gap-3 small text-muted">
                     <span><i class="bi bi-printer me-1"></i>TSC TE200</span>
-                    <span><i class="bi bi-arrows-fullscreen me-1"></i>80×40 mm</span>
+                    <span><i class="bi bi-arrows-fullscreen me-1"></i>100×200 mm</span>
                     <span><i class="bi bi-circle-fill me-1"></i>203 DPI</span>
                     <span><i class="bi bi-file-code me-1"></i>TSPL2</span>
                 </div>

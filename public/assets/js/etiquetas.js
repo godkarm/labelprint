@@ -1,100 +1,107 @@
 /* ============================================================
-   LABELPRINT — etiquetas.js
-   Lógica de la pantalla de creación de etiquetas
+   LABELPRINT — etiquetas.js  v1.5.0
+   Pantalla principal de impresión de etiquetas
    ============================================================ */
 
 'use strict';
 
-// Esperar a que Bootstrap y el DOM estén listos
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ---- Verificar que Bootstrap esté disponible ----
+    // ---- Verificar Bootstrap ----
     if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap no está cargado. Verificar public/assets/js/bootstrap.bundle.min.js');
-        document.getElementById('formErrors').textContent = 'Error: Bootstrap no cargó. Verificar los assets.';
+        document.getElementById('formErrors').textContent =
+            'Error crítico: Bootstrap no cargó. Verifique assets/js/bootstrap.bundle.min.js';
         document.getElementById('formErrors').classList.remove('d-none');
         return;
     }
 
     // ---- Elementos del formulario ----
-    const selProducto    = document.getElementById('productoSelect');
-    const selSubproducto = document.getElementById('subproductoSelect');
-    const inpCantidad    = document.getElementById('cantidadInput');
-    const inpCopias      = document.getElementById('copiasInput');
-    const selTurno       = document.getElementById('turnoSelect');
-    const inpFecha       = document.getElementById('fechaInput');
-    const btnImprimir    = document.getElementById('btnImprimir');
-    const btnPreview     = document.getElementById('btnPreview');
-    const btnNuevoSub    = document.getElementById('btnNuevoSub');
+    var selProducto    = document.getElementById('productoSelect');
+    var selSubproducto = document.getElementById('subproductoSelect');
+    var inpCantidad    = document.getElementById('cantidadInput');
+    var inpCopias      = document.getElementById('copiasInput');
+    var selTurno       = document.getElementById('turnoSelect');
+    var inpFecha       = document.getElementById('fechaInput');
+    var btnImprimir    = document.getElementById('btnImprimir');
+    var btnPreview     = document.getElementById('btnPreview');
+    var btnNuevoSub    = document.getElementById('btnNuevoSub');
 
-    // ---- Elementos de vista previa ----
-    const previewProducto    = document.getElementById('previewProducto');
-    const previewSubproducto = document.getElementById('previewSubproducto');
-    const previewCantidad    = document.getElementById('previewCantidad');
-    const previewTurno       = document.getElementById('previewTurno');
-    const previewFecha       = document.getElementById('previewFecha');
+    // ---- Vista previa ----
+    var previewProducto    = document.getElementById('previewProducto');
+    var previewSubproducto = document.getElementById('previewSubproducto');
+    var previewCantidad    = document.getElementById('previewCantidad');
+    var previewTurno       = document.getElementById('previewTurno');
+    var previewFecha       = document.getElementById('previewFecha');
+    var previewCopias      = document.getElementById('previewCopias');
 
     // ---- Alertas ----
-    const formErrors  = document.getElementById('formErrors');
-    const formSuccess = document.getElementById('formSuccess');
+    var formErrors  = document.getElementById('formErrors');
+    var formSuccess = document.getElementById('formSuccess');
 
     // ---- Modales ----
-    const modalConfirmar  = new bootstrap.Modal(document.getElementById('modalConfirmar'));
-    const modalNuevoSub   = new bootstrap.Modal(document.getElementById('modalNuevoSub'));
-    const btnConfirmarImp = document.getElementById('btnConfirmarImprimir');
-    const inputNuevoSub   = document.getElementById('nuevoSubInput');
-    const btnGuardarSub   = document.getElementById('btnGuardarSub');
-    const errorNuevoSub   = document.getElementById('nuevoSubError');
+    var modalConfirmar  = new bootstrap.Modal(document.getElementById('modalConfirmar'));
+    var modalNuevoSub   = new bootstrap.Modal(document.getElementById('modalNuevoSub'));
+    var btnConfirmarImp = document.getElementById('btnConfirmarImprimir');
+    var inputNuevoSub   = document.getElementById('nuevoSubInput');
+    var btnGuardarSub   = document.getElementById('btnGuardarSub');
+    var errorNuevoSub   = document.getElementById('nuevoSubError');
 
     // ---- Estado ----
-    let productoNombre         = '';
-    let subproductoDescripcion = '';
-    let isLoading              = false;
+    var productoNombre         = '';
+    var subproductoDescripcion = '';
+    var isLoading              = false;
 
-    // ----------------------------------------------------------------
-    // INICIALIZACIÓN — habilitar subproducto y cargar todos al inicio
-    // ----------------------------------------------------------------
-    // El select de subproducto comienza habilitado con TODOS los subproductos.
-    // Al seleccionar un producto, se filtra por los asociados.
+    // ================================================================
+    // INICIALIZACIÓN — cargar todos los subproductos al inicio
+    // ================================================================
     cargarSubproductos(null);
 
-    // ----------------------------------------------------------------
+    // ================================================================
+    // FETCH helper — detecta respuestas no-JSON (sesión expirada etc.)
+    // ================================================================
+    function fetchJSON(url, opts) {
+        return fetch(url, opts).then(function (r) {
+            var ct = r.headers.get('content-type') || '';
+            if (!ct.includes('application/json')) {
+                throw new Error('Respuesta no válida del servidor. ¿Expiró la sesión? Recargue la página.');
+            }
+            return r.json();
+        });
+    }
+
+    // ================================================================
     // CARGA DE SUBPRODUCTOS
-    // null = todos los activos; número = filtrado por producto
-    // ----------------------------------------------------------------
+    // null → todos los activos; número → filtrado por producto
+    // ================================================================
     function cargarSubproductos(productoId) {
-        const url = productoId
-            ? `${BASE}/api/subproductos?producto_id=${productoId}`
-            : `${BASE}/api/subproductos`;
+        var url = productoId
+            ? (BASE + '/api/subproductos?producto_id=' + productoId)
+            : (BASE + '/api/subproductos');
 
         selSubproducto.innerHTML = '<option value="">— Cargando… —</option>';
         selSubproducto.disabled  = true;
         btnNuevoSub.disabled     = true;
 
-        fetchJson(url)
-            .then(data => {
-                selSubproducto.innerHTML = '<option value="">— Seleccione subproducto —</option>';
-
-                if (data && data.success && Array.isArray(data.data)) {
-                    if (data.data.length === 0) {
-                        selSubproducto.innerHTML = '<option value="">— Sin subproductos disponibles —</option>';
-                    } else {
-                        data.data.forEach(sub => {
-                            const opt = document.createElement('option');
-                            opt.value = sub.id;
-                            opt.textContent = sub.descripcion;
-                            opt.dataset.descripcion = sub.descripcion;
-                            selSubproducto.appendChild(opt);
-                        });
-                    }
+        fetchJSON(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(function (data) {
+                selSubproducto.innerHTML = '<option value="">— Seleccione color/subproducto —</option>';
+                if (data && data.success && data.data && data.data.length > 0) {
+                    data.data.forEach(function (sub) {
+                        var opt = document.createElement('option');
+                        opt.value = sub.id;
+                        opt.textContent = sub.descripcion;
+                        opt.dataset.descripcion = sub.descripcion;
+                        selSubproducto.appendChild(opt);
+                    });
                 } else {
-                    selSubproducto.innerHTML = '<option value="">— Error al cargar subproductos —</option>';
+                    selSubproducto.innerHTML = '<option value="">— Sin colores disponibles —</option>';
                 }
             })
-            .catch(() => {
-                selSubproducto.innerHTML = '<option value="">— Error de conexión —</option>';
+            .catch(function (err) {
+                selSubproducto.innerHTML = '<option value="">— Error al cargar —</option>';
+                console.error('Error cargando subproductos:', err.message);
             })
-            .finally(() => {
+            .finally(function () {
                 selSubproducto.disabled = false;
                 btnNuevoSub.disabled    = false;
                 subproductoDescripcion  = '';
@@ -102,114 +109,83 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // ----------------------------------------------------------------
-    // FETCH con manejo de respuestas no-JSON (ej: redirect a login)
-    // ----------------------------------------------------------------
-    function fetchJson(url, options) {
-        return fetch(url, options)
-            .then(r => {
-                const ct = r.headers.get('content-type') || '';
-                if (!ct.includes('application/json')) {
-                    // El servidor devolvió HTML (probablemente redirect a login)
-                    throw new Error('Sesión expirada. Recargue la página.');
-                }
-                return r.json();
-            });
-    }
-
-    // ----------------------------------------------------------------
-    // CAMBIO DE PRODUCTO → filtrar subproductos
-    // ----------------------------------------------------------------
+    // ================================================================
+    // EVENTOS DE CAMBIO
+    // ================================================================
     selProducto.addEventListener('change', function () {
-        const pid = this.value;
-        productoNombre = this.options[this.selectedIndex]?.dataset.nombre || '';
+        productoNombre = this.options[this.selectedIndex]
+            ? (this.options[this.selectedIndex].dataset.nombre || this.options[this.selectedIndex].text.split('—').pop().trim())
+            : '';
         subproductoDescripcion = '';
-
-        if (!pid) {
-            // Sin producto → mostrar todos los subproductos
-            cargarSubproductos(null);
-        } else {
-            // Con producto → filtrar por asociación
-            cargarSubproductos(pid);
-        }
+        cargarSubproductos(this.value ? parseInt(this.value) : null);
     });
 
-    // ----------------------------------------------------------------
-    // CAMBIO DE SUBPRODUCTO → actualizar preview
-    // ----------------------------------------------------------------
     selSubproducto.addEventListener('change', function () {
-        const opt = this.options[this.selectedIndex];
-        subproductoDescripcion = opt?.dataset.descripcion || opt?.textContent || '';
-        // Si el option no tiene data-descripcion, usar textContent
-        if (!subproductoDescripcion && opt && opt.value) {
-            subproductoDescripcion = opt.textContent.trim();
+        var opt = this.options[this.selectedIndex];
+        subproductoDescripcion = opt ? (opt.dataset.descripcion || opt.textContent.trim()) : '';
+        if (subproductoDescripcion === '— Seleccione color/subproducto —' ||
+            subproductoDescripcion === '— Sin colores disponibles —') {
+            subproductoDescripcion = '';
         }
         updatePreview();
     });
 
-    // ----------------------------------------------------------------
-    // ACTUALIZAR PREVIEW en tiempo real
-    // ----------------------------------------------------------------
-    [inpCantidad, inpCopias, selTurno, inpFecha].forEach(el => {
+    [inpCantidad, inpCopias, selTurno, inpFecha].forEach(function (el) {
         el.addEventListener('change', updatePreview);
         el.addEventListener('input',  updatePreview);
     });
 
     btnPreview.addEventListener('click', function () {
-        // Forzar re-lectura del subproducto seleccionado
-        const opt = selSubproducto.options[selSubproducto.selectedIndex];
+        var opt = selSubproducto.options[selSubproducto.selectedIndex];
         if (opt && opt.value) {
             subproductoDescripcion = opt.dataset.descripcion || opt.textContent.trim();
         }
         updatePreview();
     });
 
+    // ================================================================
+    // ACTUALIZAR VISTA PREVIA
+    // ================================================================
     function updatePreview() {
         previewProducto.textContent    = productoNombre || '—';
         previewSubproducto.textContent = subproductoDescripcion || '—';
-        previewCantidad.textContent    = inpCantidad.value ? parseInt(inpCantidad.value).toLocaleString() : '—';
-        previewTurno.textContent       = TURNOS[selTurno.value] || '—';
+        previewCantidad.textContent    = inpCantidad.value
+            ? parseInt(inpCantidad.value).toLocaleString() : '—';
+        previewTurno.textContent = TURNOS[selTurno.value] || '—';
+
+        if (previewCopias) {
+            previewCopias.textContent = inpCopias.value || '—';
+        }
 
         if (inpFecha.value) {
-            const [y, m, d] = inpFecha.value.split('-');
-            previewFecha.textContent = `${d}/${m}/${y}`;
+            var parts = inpFecha.value.split('-');
+            previewFecha.textContent = parts[2] + '/' + parts[1] + '/' + parts[0];
         } else {
             previewFecha.textContent = '—';
         }
 
-        // Reducir fuente si el subproducto es largo
-        const len = subproductoDescripcion.length;
-        if (len > 35) {
-            previewSubproducto.style.fontSize = '.60rem';
-        } else if (len > 25) {
-            previewSubproducto.style.fontSize = '.65rem';
-        } else {
-            previewSubproducto.style.fontSize = '.78rem';
-        }
+        var len = subproductoDescripcion.length;
+        previewSubproducto.style.fontSize =
+            len > 35 ? '.60rem' : len > 25 ? '.65rem' : '.72rem';
     }
 
-    // Inicializar preview con fecha actual
     updatePreview();
 
-    // ----------------------------------------------------------------
+    // ================================================================
     // BOTÓN IMPRIMIR → modal de confirmación
-    // ----------------------------------------------------------------
+    // ================================================================
     btnImprimir.addEventListener('click', function () {
         clearAlerts();
 
-        // Re-leer subproducto por si cambió sin disparar el evento
-        const optSub = selSubproducto.options[selSubproducto.selectedIndex];
+        // Re-leer subproducto por si el usuario cambió sin disparar evento
+        var optSub = selSubproducto.options[selSubproducto.selectedIndex];
         if (optSub && optSub.value && !subproductoDescripcion) {
             subproductoDescripcion = optSub.dataset.descripcion || optSub.textContent.trim();
         }
 
-        const errors = validate();
-        if (errors.length) {
-            showErrors(errors);
-            return;
-        }
+        var errors = validate();
+        if (errors.length) { showErrors(errors); return; }
 
-        // Llenar modal con los datos
         document.getElementById('confirmProducto').textContent    = productoNombre;
         document.getElementById('confirmSubproducto').textContent = subproductoDescripcion;
         document.getElementById('confirmCantidad').textContent    = inpCantidad.value;
@@ -220,63 +196,77 @@ document.addEventListener('DOMContentLoaded', function () {
         modalConfirmar.show();
     });
 
-    // ----------------------------------------------------------------
+    // ================================================================
     // CONFIRMAR → ENVIAR A IMPRESORA
-    // ----------------------------------------------------------------
+    // ================================================================
     btnConfirmarImp.addEventListener('click', function () {
         if (isLoading) return;
         isLoading = true;
 
-        btnConfirmarImp.disabled = true;
-        btnConfirmarImp.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando…';
+        var btn = this;
+        btn.disabled  = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando…';
 
-        const payload = {
+        var payload = {
             _csrf:          CSRF,
             producto_id:    selProducto.value,
             subproducto_id: selSubproducto.value,
             cantidad:       inpCantidad.value,
             turno:          selTurno.value,
             fecha:          inpFecha.value,
-            copias:         inpCopias.value,
+            copias:         inpCopias.value
         };
 
-        fetchJson(`${BASE}/api/imprimir`, {
-            method: 'POST',
+        fetchJSON(BASE + '/api/imprimir', {
+            method:  'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type':     'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-Token': CSRF,
+                'X-CSRF-Token':     CSRF
             },
             body: JSON.stringify(payload)
         })
-        .then(data => {
+        .then(function (data) {
             modalConfirmar.hide();
+
             if (data.success) {
-                showSuccess('✓ ' + data.message + (data.impresion_id ? ` (ID: ${data.impresion_id})` : ''));
+                var msg = '✓ ' + data.message;
+                if (data.impresion_id) msg += ' (ID: ' + data.impresion_id + ')';
+                showSuccess(msg);
             } else {
+                // Mostrar errores de validación o error de impresión
                 if (data.errors) {
                     showErrors(Object.values(data.errors));
                 } else {
-                    showErrors([data.message || 'Error al enviar la impresión.']);
+                    var errLines = [data.message || 'Error al enviar la impresión.'];
+
+                    // Si hay archivo .prn descargable, ofrecer descarga manual
+                    if (data.prn_file) {
+                        errLines.push('');
+                        errLines.push('💡 Se generó el archivo de impresión. Puede descargarlo e imprimirlo manualmente:');
+                        showErrorsWithPrn(errLines, data.prn_file);
+                        return;
+                    }
+                    showErrors(errLines);
                 }
             }
         })
-        .catch(err => {
+        .catch(function (err) {
             modalConfirmar.hide();
-            showErrors(['Error: ' + err.message]);
+            showErrors(['Error de comunicación: ' + err.message]);
         })
-        .finally(() => {
+        .finally(function () {
             isLoading = false;
-            btnConfirmarImp.disabled = false;
-            btnConfirmarImp.innerHTML = '<i class="bi bi-printer-fill me-2"></i>Imprimir';
+            btn.disabled  = false;
+            btn.innerHTML = '<i class="bi bi-printer-fill me-2"></i>Imprimir';
         });
     });
 
-    // ----------------------------------------------------------------
+    // ================================================================
     // NUEVO SUBPRODUCTO RÁPIDO
-    // ----------------------------------------------------------------
+    // ================================================================
     btnGuardarSub.addEventListener('click', function () {
-        const desc = inputNuevoSub.value.trim();
+        var desc = inputNuevoSub.value.trim();
         errorNuevoSub.classList.add('d-none');
 
         if (!desc) {
@@ -285,57 +275,54 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        btnGuardarSub.disabled = true;
-        btnGuardarSub.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando…';
+        var btn = this;
+        btn.disabled  = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Guardando…';
 
-        fetchJson(`${BASE}/api/subproductos/crear`, {
-            method: 'POST',
+        fetchJSON(BASE + '/api/subproductos/crear', {
+            method:  'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type':     'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-Token': CSRF,
+                'X-CSRF-Token':     CSRF
             },
             body: JSON.stringify({ descripcion: desc })
         })
-        .then(data => {
+        .then(function (data) {
             if (data.success) {
-                // Agregar al select y seleccionarlo
-                const opt = document.createElement('option');
+                var opt = document.createElement('option');
                 opt.value = data.data.id;
                 opt.textContent = data.data.descripcion;
                 opt.dataset.descripcion = data.data.descripcion;
                 selSubproducto.appendChild(opt);
                 selSubproducto.value   = data.data.id;
                 subproductoDescripcion = data.data.descripcion;
-
                 modalNuevoSub.hide();
                 inputNuevoSub.value = '';
                 updatePreview();
-                if (typeof showToast === 'function') {
-                    showToast('Subproducto creado y seleccionado.', 'success');
-                }
+                if (window.showToast) showToast('Color/subproducto creado y seleccionado.', 'success');
             } else {
-                errorNuevoSub.textContent = data.message || 'Error al crear subproducto.';
+                errorNuevoSub.textContent = data.message || 'Error al crear.';
                 errorNuevoSub.classList.remove('d-none');
             }
         })
-        .catch(err => {
+        .catch(function (err) {
             errorNuevoSub.textContent = err.message || 'Error de comunicación.';
             errorNuevoSub.classList.remove('d-none');
         })
-        .finally(() => {
-            btnGuardarSub.disabled = false;
-            btnGuardarSub.innerHTML = '<i class="bi bi-save me-1"></i>Guardar y Seleccionar';
+        .finally(function () {
+            btn.disabled  = false;
+            btn.innerHTML = '<i class="bi bi-save me-1"></i>Guardar y Seleccionar';
         });
     });
 
-    // ----------------------------------------------------------------
+    // ================================================================
     // VALIDACIÓN FRONTEND
-    // ----------------------------------------------------------------
+    // ================================================================
     function validate() {
-        const errors = [];
+        var errors = [];
         if (!selProducto.value)    errors.push('Seleccione un producto.');
-        if (!selSubproducto.value) errors.push('Seleccione un subproducto.');
+        if (!selSubproducto.value) errors.push('Seleccione un color/subproducto.');
         if (!inpCantidad.value || parseInt(inpCantidad.value) <= 0)
             errors.push('Ingrese una cantidad válida (mayor que cero).');
         if (!inpCopias.value || parseInt(inpCopias.value) <= 0)
@@ -346,8 +333,25 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function showErrors(errors) {
-        formErrors.innerHTML = '<ul class="mb-0">' + errors.map(e => `<li>${e}</li>`).join('') + '</ul>';
+        formErrors.innerHTML = errors.map(function(e) {
+            return e ? '<div>' + e + '</div>' : '<br>';
+        }).join('');
         formErrors.classList.remove('d-none');
+        formSuccess.classList.add('d-none');
+        formErrors.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function showErrorsWithPrn(errors, prnFile) {
+        var html = errors.map(function(e) {
+            return e ? '<div>' + e + '</div>' : '<br>';
+        }).join('');
+        html += '<div class="mt-2">' +
+                '<a href="' + BASE + '/storage/temp/' + prnFile + '" class="btn btn-sm btn-outline-secondary" download>' +
+                '<i class="bi bi-download me-1"></i>Descargar ' + prnFile + '</a>' +
+                '</div>';
+        formErrors.innerHTML = html;
+        formErrors.classList.remove('d-none');
+        formSuccess.classList.add('d-none');
         formErrors.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 

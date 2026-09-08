@@ -46,6 +46,9 @@
         <li><a href="<?= $basePath ?>/configuracion" class="lp-nav-link <?= ($activeNav ?? '') === 'configuracion' ? 'active' : '' ?>">
             <i class="bi bi-gear-fill"></i> Configuración
         </a></li>
+        <li><a href="<?= $basePath ?>/configuracion/diagnostico" class="lp-nav-link <?= ($activeNav ?? '') === 'diagnostico' ? 'active' : '' ?>">
+            <i class="bi bi-bug"></i> Diagnóstico impresión
+        </a></li>
         <li><a href="<?= $basePath ?>/check" class="lp-nav-link <?= ($activeNav ?? '') === 'check' ? 'active' : '' ?>">
             <i class="bi bi-shield-check"></i> Verificar sistema
         </a></li>

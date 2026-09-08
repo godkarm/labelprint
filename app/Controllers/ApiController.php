@@ -84,13 +84,20 @@ class ApiController extends BaseController
     {
         $this->requireAuthApi();
 
-        $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? (json_decode(file_get_contents('php://input'), true)['_csrf'] ?? '');
+        // Leer php://input UNA SOLA VEZ — es un stream no rebobinable
+        $rawInput = file_get_contents('php://input');
+        $jsonData = json_decode($rawInput, true) ?? [];
+
+        // CSRF: primero del header HTTP, luego del body JSON
+        $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $jsonData['_csrf'] ?? '';
         if (!Session::verifyCsrf($token)) {
             View::json(['success' => false, 'message' => 'Token de seguridad inválido.'], 403);
             return;
         }
 
-        $data    = json_decode(file_get_contents('php://input'), true) ?? $_POST;
+        // Datos: del JSON decodificado (ya leído arriba), fallback a $_POST
+        $data = !empty($jsonData) ? $jsonData : $_POST;
+
         $service = new LabelService();
         $valid   = $service->validate($data);
 

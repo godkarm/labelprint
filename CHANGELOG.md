@@ -151,3 +151,93 @@ Bootstrap no estaba disponible, silenciando todo el bloque JS sin mensaje de err
   Helper `fetchJSON()` detecta respuestas no-JSON (ej: redirect a login por sesión expirada).
 - `historial/show.php`: ídem. ID de impresión fijo en constante `IMP_ID` (PHP). Redirección
   automática al historial tras eliminar exitosamente.
+
+## [1.5.0] - 2026-09-01
+
+### Fixed
+- Corregida codificación de caracteres en TSPL2: tildes (á,é,í,ó,ú) y Ñ/ñ ahora se
+  transliteran a ASCII antes de enviar a la impresora (TE200 usa CP850, no UTF-8).
+  Esto corregía impresión corrupta o rechazo silencioso del trabajo.
+- Corregido envío USB en Windows: cascada de 3 métodos (copy /b por nombre,
+  copy /b por puerto USB001/COM3, PowerShell Out-Printer).
+- Corregido: el archivo .prn se guarda siempre en storage/temp/ para diagnóstico.
+
+### Added
+- Campo "Puerto USB de Windows" en Configuración → Impresora (USB001, USB002, COM3...).
+- Botón "Descargar archivo .prn" en pantalla de prueba para impresión manual.
+- Visor de TSPL2 generado en pantalla de prueba de impresión.
+- Endpoint GET /storage/temp/{file} para descarga segura de archivos .prn.
+- Guía de conexión USB en Windows visible en pantalla de Configuración.
+- Mensajes de error detallados que explican qué verificar cuando falla la impresión.
+
+### Changed
+- PrinterService::send() ahora retorna siempre 'tspl' y 'prn_file' en la respuesta.
+- PrinterService::tspl() (antes sanitizeTspl): transliteración de caracteres especiales.
+- Texto de turno en TSPL: "1-MANANA" en lugar de "1-MAÑANA" para evitar corrupción.
+- ConfiguracionController::prueba(): devuelve 'tspl' y 'prn_file' al frontend.
+
+## [1.5.1] - 2026-09-01
+
+### Fixed (crítico)
+- **BUG PRINCIPAL DE IMPRESIÓN:** `ApiController::imprimir()` leía `php://input`
+  dos veces (stream no rebobinable). La primera lectura obtenía el CSRF del JSON,
+  la segunda devolvía cadena vacía → `$data = null` → validación fallaba con
+  "Seleccione un producto" aunque el usuario lo hubiera seleccionado.
+  **Corregido:** se lee el stream UNA sola vez, se cachea en `$rawInput`, se
+  extrae CSRF y datos del mismo JSON decodificado.
+- `LabelService::print()` y `reprint()` ahora propagan `prn_file` y `tspl` al
+  resultado devuelto al frontend.
+- `etiquetas.js`: cuando la impresión falla pero existe archivo .prn,
+  se muestra botón de descarga directa para impresión manual.
+
+## [1.5.2] - 2026-09-01
+
+### Added
+- Página de diagnóstico de impresión paso a paso: `/configuracion/diagnostico`
+  Muestra el resultado de cada capa: BD → TSPL → .prn → envío → respuesta.
+  Incluye detección del usuario bajo el que corre Apache (causa más probable del fallo USB).
+- Script `storage/print_raw.ps1`: PowerShell con RawPrinterHelper (.NET Win32 API)
+  para envío RAW al spooler de Windows — funciona incluso desde SYSTEM si la
+  impresora está instalada para todos los usuarios.
+- Script `storage/print_helper.vbs`: alternativa VBScript para envío via WScript.
+- Nuevo método `sendUsbWindows()`: cascada de 5 métodos (PS RawPrinterHelper externo,
+  PS inline encoded, copy/b nombre, copy/b puerto, VBScript).
+- Enlace "Diagnóstico impresión" en el menú lateral.
+- Botón "Diagnóstico paso a paso" en la pantalla de Configuración.
+
+### Root cause análisis
+El fallo de impresión USB en XAMPP tiene 3 causas posibles en orden de probabilidad:
+1. `php://input` leído dos veces en `ApiController::imprimir()` → ya corregido en v1.5.1.
+2. Apache corre como `NT AUTHORITY\SYSTEM` → sin acceso a impresoras del usuario → 
+   se añade cascada de 5 métodos y guía para cambiar la cuenta de Apache.
+3. Nombre de impresora en configuración no coincide con Windows → diagnóstico
+   muestra el `whoami` del proceso Apache para confirmar.
+
+## [1.6.0] - 2026-09-01
+
+### Fixed (crítico)
+- **Dimensiones de etiqueta corregidas:** el material real es 100×200mm (vertical),
+  no 80×40mm (horizontal). Se ajusta todo el sistema con los parámetros del
+  material "ETIQUETAS 4X8" (Ancho: 100.0mm, Alto: 200.0mm, vertical).
+
+### Changed
+- `PrinterService::generateTspl()`: layout vertical 100×200mm, área útil 95%
+  (márgenes x=20dots/2.5mm, y=40dots/5mm). Marco BOX 20,40,783,1566.
+  Distribución de campos: EMPRESA, PRODUCTO, COLOR, CANTIDAD, TURNO, FECHA, COPIAS
+  con separadores BAR entre cada sección y fuentes escaladas (tamaños 2-5 TSPL).
+- `PrinterService::generateTestTspl()`: etiqueta de calibración 100×200mm con
+  líneas de referencia cada 20mm en ambos ejes.
+- `PrinterService`: constantes `LABEL_W_MM=100`, `LABEL_H_MM=200`,
+  `LABEL_W_DOTS=803`, `LABEL_H_DOTS=1606`, `MX=20`, `MY=40`.
+- `config/app.php`: `width_mm=100`, `height_mm=200`, `orientation=vertical`.
+- `database/migrations/001_initial_schema.sql`: config impresora por defecto 100×200mm.
+- `public/assets/css/app.css`: vista previa 200×400px (proporción 1:2 vertical).
+  `.lp-label-bottom` cambia a flex-column para layout vertical.
+- `app/Views/etiquetas/index.php`: badge "100×200mm Vertical", campo COPIAS en preview.
+- `app/Views/historial/show.php`: campo COPIAS en vista previa del detalle.
+- `app/Views/empresa/index.php`: campo COPIAS en vista previa de empresa.
+- `CLAUDE.md`: dimensiones actualizadas.
+
+### Added
+- `database/migrations/003_fix_label_dimensions.sql`: migración para instalaciones
+  existentes que actualiza `configuracion_impresora` a 100×200mm vertical.
