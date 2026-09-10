@@ -126,10 +126,7 @@
                             <span class="lp-label-k">FECHA</span>
                             <span class="lp-label-v"><?= date('d/m/Y') ?></span>
                         </div>
-                        <div class="lp-label-kv">
-                            <span class="lp-label-k">COPIAS</span>
-                            <span class="lp-label-v">1</span>
-                        </div>
+
                     </div>
                 </div>
             </div>

@@ -60,8 +60,8 @@
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Orientación</label>
                             <select name="orientacion" class="form-select">
-                                <option value="horizontal" <?= ($impresora['orientacion'] ?? 'horizontal') === 'horizontal' ? 'selected' : '' ?>>Horizontal (80×40)</option>
-                                <option value="vertical"   <?= ($impresora['orientacion'] ?? 'horizontal') === 'vertical'   ? 'selected' : '' ?>>Vertical (40×80)</option>
+                                <option value="horizontal" <?= ($impresora['orientacion'] ?? 'horizontal') === 'horizontal' ? 'selected' : '' ?>>Horizontal (largo × alto)</option>
+                                <option value="vertical"   <?= ($impresora['orientacion'] ?? 'horizontal') === 'vertical'   ? 'selected' : '' ?>>Vertical (alto × largo)</option>
                             </select>
                         </div>
 

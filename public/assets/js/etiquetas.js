@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var previewCantidad    = document.getElementById('previewCantidad');
     var previewTurno       = document.getElementById('previewTurno');
     var previewFecha       = document.getElementById('previewFecha');
-    var previewCopias      = document.getElementById('previewCopias');
 
     // ---- Alertas ----
     var formErrors  = document.getElementById('formErrors');
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePreview();
     });
 
-    [inpCantidad, inpCopias, selTurno, inpFecha].forEach(function (el) {
+    [inpCantidad,selTurno, inpFecha].forEach(function (el) {
         el.addEventListener('change', updatePreview);
         el.addEventListener('input',  updatePreview);
     });
@@ -152,10 +151,6 @@ document.addEventListener('DOMContentLoaded', function () {
         previewCantidad.textContent    = inpCantidad.value
             ? parseInt(inpCantidad.value).toLocaleString() : '—';
         previewTurno.textContent = TURNOS[selTurno.value] || '—';
-
-        if (previewCopias) {
-            previewCopias.textContent = inpCopias.value || '—';
-        }
 
         if (inpFecha.value) {
             var parts = inpFecha.value.split('-');

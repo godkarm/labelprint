@@ -25,7 +25,7 @@ if (file_exists($envFile)) {
 return [
     'name'    => 'LabelPrint — TSC TE200',
     'version' => '1.1.0',
-    'debug'   => filter_var(getenv('APP_DEBUG') ?: false, FILTER_VALIDATE_BOOLEAN),
+    'debug'   => filter_var(getenv('APP_DEBUG') ?: true, FILTER_VALIDATE_BOOLEAN),  // true=mostrar errores en XAMPP local
     'url'     => getenv('APP_URL') ?: 'http://localhost/labelprint/public',
     'timezone'=> getenv('APP_TIMEZONE') ?: 'America/Lima',
     'env'     => getenv('APP_ENV') ?: 'local',

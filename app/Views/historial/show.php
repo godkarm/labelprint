@@ -103,10 +103,7 @@ $subLen    = strlen($impresion['subproducto_descripcion'] ?? '');
                         <span class="lp-label-k">FECHA</span>
                         <span class="lp-label-v"><?= date('d/m/Y', strtotime($impresion['fecha_etiqueta'])) ?></span>
                     </div>
-                    <div class="lp-label-kv">
-                        <span class="lp-label-k">COPIAS</span>
-                        <span class="lp-label-v"><?= (int)$impresion['copias'] ?></span>
-                    </div>
+
                 </div>
             </div>
         </div>

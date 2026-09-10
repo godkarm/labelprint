@@ -66,3 +66,39 @@
 [06-Sep-2026 23:08:13 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
 [06-Sep-2026 23:08:44 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
 [06-Sep-2026 23:10:24 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 21:57:06 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 21:58:26 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 21:59:39 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:01:18 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:01:35 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:02:05 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:03:12 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:04:32 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:11:51 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[07-Sep-2026 22:12:20 America/Lima] [PrinterService] OK via PS-RAW. PS-RAW: rc=0
+[09-Sep-2026 17:29:47 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1932 Table 'labelprint.usuarios' doesn't exist in engine in C:\xampp\htdocs\labelprint\app\Core\Database.php:48
+Stack trace:
+#0 C:\xampp\htdocs\labelprint\app\Core\Database.php(48): PDO->prepare('SELECT * FROM u...')
+#1 C:\xampp\htdocs\labelprint\app\Core\Database.php(60): App\Core\Database::query('SELECT * FROM u...', Array)
+#2 C:\xampp\htdocs\labelprint\app\Controllers\AuthController.php(42): App\Core\Database::fetchOne('SELECT * FROM u...', Array)
+#3 [internal function]: App\Controllers\AuthController->login()
+#4 C:\xampp\htdocs\labelprint\app\Core\Router.php(73): call_user_func_array(Array, Array)
+#5 C:\xampp\htdocs\labelprint\app\Core\Router.php(42): App\Core\Router->run('AuthController', 'login', Array)
+#6 C:\xampp\htdocs\labelprint\public\index.php(51): App\Core\Router->dispatch('POST', '/labelprint/pub...')
+#7 {main}
+  thrown in C:\xampp\htdocs\labelprint\app\Core\Database.php on line 48
+[09-Sep-2026 17:36:15 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1932 Table 'labelprint.usuarios' doesn't exist in engine in C:\xampp\htdocs\labelprint\app\Core\Database.php:48
+Stack trace:
+#0 C:\xampp\htdocs\labelprint\app\Core\Database.php(48): PDO->prepare('SELECT * FROM u...')
+#1 C:\xampp\htdocs\labelprint\app\Core\Database.php(60): App\Core\Database::query('SELECT * FROM u...', Array)
+#2 C:\xampp\htdocs\labelprint\app\Controllers\AuthController.php(42): App\Core\Database::fetchOne('SELECT * FROM u...', Array)
+#3 [internal function]: App\Controllers\AuthController->login()
+#4 C:\xampp\htdocs\labelprint\app\Core\Router.php(73): call_user_func_array(Array, Array)
+#5 C:\xampp\htdocs\labelprint\app\Core\Router.php(42): App\Core\Router->run('AuthController', 'login', Array)
+#6 C:\xampp\htdocs\labelprint\public\index.php(51): App\Core\Router->dispatch('POST', '/labelprint/pub...')
+#7 {main}
+  thrown in C:\xampp\htdocs\labelprint\app\Core\Database.php on line 48
+[10-Sep-2026 17:43:14 America/Lima] [LogoProcessor] Extensión GD no disponible — el logo no se incluirá en la etiqueta.
+[10-Sep-2026 17:43:15 America/Lima] [PS-RAW OK] PS-RAW:rc=0
+[10-Sep-2026 17:44:23 America/Lima] [LogoProcessor] Extensión GD no disponible — el logo no se incluirá en la etiqueta.
+[10-Sep-2026 17:44:24 America/Lima] [PS-RAW OK] PS-RAW:rc=0

@@ -241,3 +241,64 @@ El fallo de impresión USB en XAMPP tiene 3 causas posibles en orden de probabil
 ### Added
 - `database/migrations/003_fix_label_dimensions.sql`: migración para instalaciones
   existentes que actualiza `configuracion_impresora` a 100×200mm vertical.
+
+## [1.7.0] - 2026-09-08
+
+### Fixed (crítico)
+- **Dimensiones corregidas:** 200×100mm horizontal (ancho=200mm largo de avance,
+  alto=100mm ancho de papel) según configuración confirmada por el usuario.
+- **Constantes hardcodeadas eliminadas:** `generateTspl()` ahora lee SIEMPRE
+  ancho_mm/alto_mm/velocidad/densidad desde `$this->config` (BD). Las constantes
+  eran la causa por la que cambiar la configuración no tenía efecto en la impresión.
+- **Campo COPIAS eliminado de la etiqueta:** la etiqueta ya no muestra "COPIAS / 1".
+  El sistema siempre imprime 1 copia (campo hidden en el formulario).
+- **Campo copias eliminado del formulario de impresión** — solo existe la cantidad del producto.
+- **Logo (LogoProcessor):** posición corregida para 200×100mm (x=50, y=25, maxW=100, maxH=60 dots).
+  Se agrega logging para diagnosticar si GD no está disponible.
+- **CSS vista previa:** 360×180px (proporción 2:1 horizontal, igual que 200×100mm).
+- **Opciones de orientación** en configuración: eliminado texto hardcodeado "80×40".
+
+### Changed
+- `PrinterService::generateTspl()`: lee dimensiones de `$this->config`, calcula
+  dots dinámicamente. Layout: empresa+logo (header), PRODUCTO, COLOR, CANTIDAD|TURNO|FECHA (3 col).
+- `PrinterService::generateTestTspl()`: lee dimensiones de `$this->config`.
+- `LogoProcessor::toTsplBitmap()`: x=50, y=25, maxW=100, maxH=60 dots (200×100mm).
+- `database/migrations/001_initial_schema.sql`: ancho=200, alto=100, horizontal.
+- `database/migrations/003_fix_label_dimensions.sql`: actualizado a 200×100 horizontal.
+- `config/app.php`: width_mm=200, height_mm=100, orientation=horizontal.
+
+## [1.7.1] - 2026-09-08
+
+### Fixed (crítico)
+- **Error 500 en login:** `use App\Core\Session` y `use App\Core\Router` estaban
+  ubicados en la línea 40 de `public/index.php`, DESPUÉS de código PHP ejecutable
+  (defines, spl_autoload_register, require, etc.). En PHP 8 esto genera
+  `Fatal error: Cannot use statement after executable code`.
+  **Corrección:** eliminados los `use` statements; las clases ahora se referencian
+  con FQCN completo (`\App\Core\Session::start()`, `new \App\Core\Router()`).
+- `config/app.php`: `debug=true` por defecto para entorno XAMPP local, permitiendo
+  ver errores PHP directamente en el navegador durante el desarrollo.
+
+## [1.8.0] - 2026-09-08
+
+### Fixed (crítico)
+- **"Table usuarios doesn't exist in engine":** El SQL original usaba ENUM y
+  claves foráneas que causaban que InnoDB rechazara silenciosamente las tablas
+  en algunas versiones de XAMPP/MariaDB. El nuevo schema usa VARCHAR en lugar
+  de ENUM, elimina las FK constraints, agrega SET FOREIGN_KEY_CHECKS=0 al inicio
+  y DROP TABLE IF EXISTS antes de cada CREATE.
+- **Error 500 en login (use después de código ejecutable):** `public/index.php`
+  tenía `use App\Core\Session` en línea 40, después de código ejecutable PHP.
+  PHP 8 lanza Fatal error en ese caso. Corregido usando FQCN completo.
+
+### Added
+- `public/install.php`: instalador PHP alternativo para cuando phpMyAdmin
+  no puede importar el SQL. Acceder a http://localhost/labelprint/public/install.php
+  Crear las tablas directamente via PDO, sin depender de phpMyAdmin.
+  ⚠️ Eliminar después de instalar.
+
+### Changed
+- `database/migrations/001_initial_schema.sql`: reescrito completamente.
+  Sin FK constraints, sin ENUM (usa VARCHAR), con DROP IF EXISTS antes de cada
+  tabla, SET FOREIGN_KEY_CHECKS=0/1 envolviendo todo el script.
+  Compatible con MySQL 5.7+ y MariaDB 10.x de XAMPP.

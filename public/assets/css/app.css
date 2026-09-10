@@ -172,41 +172,40 @@ body.lp-body {
 
 /* ---- LABEL PREVIEW ---- */
 /*
-   Proporción real de etiqueta: 100mm × 200mm = 1:2 (ancho:alto) — VERTICAL
-   Tamaño en pantalla: 200px × 400px
-   Todo el contenido DEBE quedar dentro del borde.
-   overflow: hidden garantiza que nada salga.
+   Etiqueta real: 200mm × 100mm = 2:1 (ancho:alto) — HORIZONTAL
+   Vista previa en pantalla: 360px × 180px (proporción 2:1)
+   overflow: hidden garantiza que nada salga del borde.
 */
 .lp-label-preview {
-    width: 200px;
-    height: 400px;
+    width: 360px;
+    height: 180px;
     border: 2px solid #1a1a1a;
     border-radius: 3px;
     background: #fff;
-    padding: 6px 8px;
+    padding: 6px 10px;
     display: flex;
     flex-direction: column;
     gap: 0;
     font-family: 'Courier New', monospace;
     position: relative;
     box-shadow: 0 4px 16px rgba(0,0,0,.15);
-    overflow: hidden;       /* Nada puede salir del borde */
+    overflow: hidden;
     box-sizing: border-box;
 }
 
-/* HEADER: logo + nombre empresa — altura fija */
+/* HEADER: logo + nombre empresa */
 .lp-label-header {
     display: flex;
     align-items: center;
-    gap: 6px;
-    height: 36px;
+    gap: 8px;
+    height: 32px;
     flex-shrink: 0;
     overflow: hidden;
 }
 
 .lp-label-logo {
     width: 28px;
-    height: 24px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,19 +215,19 @@ body.lp-body {
 
 .lp-label-logo img {
     max-width: 28px;
-    max-height: 24px;
+    max-height: 26px;
     object-fit: contain;
     filter: grayscale(100%);
 }
 
 .lp-label-logo .bi {
-    font-size: .9rem;
+    font-size: .85rem;
     color: #888;
 }
 
 .lp-label-empresa {
     font-weight: 800;
-    font-size: .72rem;
+    font-size: .75rem;
     letter-spacing: .3px;
     text-transform: uppercase;
     line-height: 1;
@@ -238,21 +237,19 @@ body.lp-body {
     text-overflow: ellipsis;
 }
 
-/* DIVISOR */
 .lp-label-divider {
     height: 1px;
     background: #1a1a1a;
-    margin: 3px 0;
+    margin: 2px 0;
     flex-shrink: 0;
 }
 
-/* FILA producto / subproducto */
 .lp-label-row {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    line-height: 1.1;
     overflow: hidden;
+    line-height: 1.1;
 }
 
 .lp-label-field-name {
@@ -270,18 +267,17 @@ body.lp-body {
     color: #111;
     line-height: 1.15;
     overflow: hidden;
-    /* Subproducto largo: permitir 2 líneas máximo */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
-/* PARTE INFERIOR: cantidad, turno, fecha — ocupa el resto */
+/* PARTE INFERIOR: cantidad | turno | fecha en 3 columnas */
 .lp-label-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    margin-top: 3px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 6px;
+    margin-top: auto;
     flex-shrink: 0;
 }
 
@@ -292,7 +288,7 @@ body.lp-body {
 }
 
 .lp-label-kv.lp-full {
-    width: 100%;
+    grid-column: 1 / -1;
 }
 
 .lp-label-k {
